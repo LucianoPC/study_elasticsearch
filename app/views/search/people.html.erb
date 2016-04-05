@@ -1,0 +1,28 @@
+<h1>People Search</h1>
+
+<%= form_for search_people_path, method: :get do |f| %>
+  <p>
+    <%= f.label "Search for" %>
+    <%= text_field_tag :q, params[:q] %>
+    <%= submit_tag "Go", name: nil %>
+  </p>
+<% end %>
+
+<ul>
+  <% @people.each do |person| %>
+    <li>
+      <h3>
+        <%= link_to person.try(:highlight).try(:name) ? person.highlight.name[0].html_safe : person.name,
+          controller: "people",
+          action: "show",
+          id: person._id%>
+    </h3>
+    <% if person.try(:highlight).try(:age) %>
+      <% person.highlight.age.each do |snippet| %>
+        <p>Age: <%= snippet.html_safe %></p>
+      <% end %>
+    <% end %>
+    </li>
+  <% end %>
+</ul>
+

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+  resources :people
   resources :articles
   match 'search(/:action)', :controller => 'search', via: [:get]
   match 'search/articles', :controller => 'search', as: :search_articles, via: [:get]
+  match 'search/people', :controller => 'search', as: :search_people, via: [:get]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
