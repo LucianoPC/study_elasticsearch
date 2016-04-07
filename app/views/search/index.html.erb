@@ -1,0 +1,46 @@
+<h1>All Search</h1>
+
+<%= form_for search_path, method: :get do |f| %>
+  <p>
+    <%= f.label "Search for" %>
+    <%= text_field_tag :q, params[:q] %>
+    <%= submit_tag "Go", name: nil %>
+  </p>
+<% end %>
+
+<ul>
+  <% @models.each do |model| %>
+    <% if model._type == "article" %>
+      <li>
+        <h3>
+          <%= link_to "Article: " + (model.try(:highlight).try(:title) ? model.highlight.title[0].html_safe : model.title),
+            controller: "articles",
+            action: "show",
+            id: model._id%>
+      </h3>
+      <% if model.try(:highlight).try(:text) %>
+        <% model.highlight.text.each do |snippet| %>
+          <p><%= snippet.html_safe %>...</p>
+        <% end %>
+      <% end %>
+      </li>
+    <% end %>
+
+    <% if model._type == "person" %>
+      <li>
+        <h3>
+          <%= link_to "Person: " + (model.try(:highlight).try(:name) ? model.highlight.name[0].html_safe : model.name),
+            controller: "people",
+            action: "show",
+            id: model._id%>
+      </h3>
+      <% if model.try(:highlight).try(:age) %>
+        <% model.highlight.age.each do |snippet| %>
+          <p>Age: <%= snippet.html_safe %></p>
+        <% end %>
+      <% end %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>
+

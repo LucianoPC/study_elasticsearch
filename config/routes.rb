@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :people
   resources :articles
+  get 'search', to: 'search#index'
   match 'search(/:action)', :controller => 'search', via: [:get]
   match 'search/articles', :controller => 'search', as: :search_articles, via: [:get]
   match 'search/people', :controller => 'search', as: :search_people, via: [:get]
